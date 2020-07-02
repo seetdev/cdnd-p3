@@ -1,0 +1,18 @@
+version: "3"
+services:
+  udagram_proxy:
+    build:
+      context: udagram-proxy
+    image: seetdev/udagram-proxy
+  udagram_user_service:
+    build:
+      context: udagram-user-service
+    image: seetdev/udagram-user-service
+  udagram_feed_service:
+    build:
+      context: udagram-feed-service
+    image: seetdev/udagram-feed-service
+  udagram_frontend:
+    build:
+      context: udagram-frontend
+    image: seetdev/udagram-frontend

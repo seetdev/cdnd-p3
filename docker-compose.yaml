@@ -1,0 +1,37 @@
+version: "3"
+services:
+  udagram-proxy:
+    image: seetdev/udagram-proxy
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - udagram-user-service
+      - udagram-feed-service
+  udagram-user-service:
+    image: seetdev/udagram-user-service
+    environment:
+      POSTGRES_USERNAME: $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_HOST: $POSTGRES_HOST
+      JWT_SECRET: $JWT_SECRET
+      FRONTEND_URL: $FRONTEND_URL
+  udagram-feed-service:
+    image: seetdev/udagram-feed-service
+    volumes:
+      - $HOME/.aws:/root/.aws
+    environment:
+      POSTGRES_USERNAME: $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_HOST: $POSTGRES_HOST
+      AWS_REGION: $AWS_REGION
+      AWS_PROFILE: $AWS_PROFILE
+      AWS_BUCKET: $AWS_BUCKET
+      JWT_SECRET: $JWT_SECRET
+      FRONTEND_URL: $FRONTEND_URL
+  udagram-frontend:
+    image: seetdev/udagram-frontend
+    ports:
+      - "8100:80"
